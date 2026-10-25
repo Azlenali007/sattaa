@@ -1,0 +1,125 @@
+@charset "UTF-8";
+
+/* Satka Matka Web Installer Styles */
+:root {
+  --primary-purple: #6425D9;
+  --deep-purple: #35156F;
+  --light-purple: #F3EDFF;
+  --soft-bg: #FAF9FF;
+  --primary-text: #191747;
+  --secondary-text: #737493;
+  --border-color: #EAE8F5;
+  --success-green: #16A779;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--primary-text);
+  background-color: var(--soft-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+.step-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  transition: all 0.2s ease;
+}
+
+.step-circle.active {
+  background-color: var(--primary-purple);
+  color: #FFFFFF;
+  box-shadow: 0 0 0 4px rgba(100, 37, 217, 0.15);
+}
+
+.step-circle.completed {
+  background-color: #10B981;
+  color: #FFFFFF;
+}
+
+.step-circle.pending {
+  background-color: #FAF9FF;
+  border: 1px solid var(--border-color);
+  color: var(--secondary-text);
+}
+
+.step-connector {
+  height: 2px;
+  flex: 1;
+  background-color: var(--border-color);
+  transition: background-color 0.2s ease;
+}
+.step-connector.completed {
+  background-color: #10B981;
+}
+
+.installer-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 20px -2px rgba(25, 23, 71, 0.05);
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background-color: #FAF9FF;
+  border: 1px solid var(--border-color);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--primary-text);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary-purple);
+  background-color: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(100, 37, 217, 0.1);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  background-color: var(--primary-purple);
+  color: #FFFFFF;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 4px rgba(100, 37, 217, 0.2);
+}
+.btn-primary:hover {
+  background-color: #521ec2;
+  transform: translateY(-1px);
+}
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.75rem;
+  background-color: #FAF9FF;
+  border: 1px solid var(--border-color);
+  color: var(--secondary-text);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  transition: all 0.15s ease;
+}
+.btn-secondary:hover {
+  background-color: #F3EDFF;
+  color: var(--primary-purple);
+}

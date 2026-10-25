@@ -32,6 +32,27 @@ if (file_exists(__DIR__ . $uri . '.php')) {
     return true;
 }
 
+// Check install routing
+if ($uri === '/install' || $uri === '/install/') {
+    require __DIR__ . '/install/index.php';
+    return true;
+}
+if (str_starts_with($uri, '/install/')) {
+    $installFile = __DIR__ . $uri;
+    if (file_exists($installFile) && !is_dir($installFile)) {
+        $ext = pathinfo($installFile, PATHINFO_EXTENSION);
+        if ($ext === 'php') {
+            require $installFile;
+            return true;
+        }
+        return false;
+    }
+    if (file_exists($installFile . '.php')) {
+        require $installFile . '.php';
+        return true;
+    }
+}
+
 // Default fallback to index.php
 if ($uri === '/' || $uri === '/index.php') {
     require __DIR__ . '/index.php';
