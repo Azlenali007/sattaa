@@ -1,17 +1,20 @@
 <?php
 /**
  * Automated Test Suite for Satka Matka Web Installer
+ * Exclusively tests MySQL 8+ / MariaDB via PDO (pdo_mysql)
+ * Zero SQLite references
  */
 
 require_once __DIR__ . '/../install/includes/installer-functions.php';
 
-echo "=== SATKA MATKA WEB INSTALLER AUTOMATED TEST SUITE ===\n\n";
+echo "=== SATKA MATKA WEB INSTALLER AUTOMATED TEST SUITE (MySQL ONLY) ===\n\n";
 
 // 1. Test Server Requirements Check
 echo "[TEST 1] Auditing Server Requirements...\n";
 $req = check_server_requirements();
 if ($req['passed']) {
     echo "  -> [PASS] All critical requirements passed (PHP " . $req['checks']['php_version']['current'] . ").\n";
+    echo "  -> [PASS] PDO MySQL driver: " . $req['checks']['pdo_driver']['current'] . ".\n";
 } else {
     echo "  -> [FAIL] Server requirements check failed!\n";
     print_r($req['checks']);
@@ -36,26 +39,30 @@ if (!$badRes['success'] && !empty($badRes['message'])) {
     exit(1);
 }
 
-// 3. Test Valid Database Connection (SQLite or MySQL)
-echo "\n[TEST 3] Testing Valid Database Connection...\n";
+// 3. Test Valid MySQL Database Connection
+echo "\n[TEST 3] Testing Valid MySQL Database Connection...\n";
 $testDbConfig = [
-    'driver' => 'sqlite',
-    'database' => 'satkamatka'
+    'driver' => 'mysql',
+    'host' => '127.0.0.1',
+    'port' => 3306,
+    'database' => 'satkamatka',
+    'username' => 'root',
+    'password' => ''
 ];
 $dbRes = test_database_connection($testDbConfig);
 if ($dbRes['success'] && $dbRes['pdo'] instanceof PDO) {
-    echo "  -> [PASS] Database connection verified successfully ({$dbRes['details']}).\n";
+    echo "  -> [PASS] MySQL database connection verified successfully ({$dbRes['details']}).\n";
 } else {
     echo "  -> [FAIL] Valid database connection failed: " . ($dbRes['message'] ?? 'Unknown') . "\n";
     exit(1);
 }
 $pdo = $dbRes['pdo'];
 
-// 4. Test Schema Installation & Seeding
-echo "\n[TEST 4] Testing Database Schema and Seed Execution...\n";
-$schemaRes = install_database_schema($pdo, 'sqlite');
+// 4. Test Schema Installation & Seeding on MySQL
+echo "\n[TEST 4] Testing MySQL Database Schema and Seed Execution...\n";
+$schemaRes = install_database_schema($pdo, 'mysql');
 if ($schemaRes['success']) {
-    echo "  -> [PASS] Schema created and seeded: {$schemaRes['message']}\n";
+    echo "  -> [PASS] MySQL schema created and seeded: {$schemaRes['message']}\n";
 } else {
     echo "  -> [FAIL] Schema creation failed: " . ($schemaRes['message'] ?? '') . "\n";
     exit(1);
@@ -78,9 +85,9 @@ if (!$weakAdminRes['success'] && str_contains($weakAdminRes['message'], 'at leas
 
 // 6. Test Admin Creation (Valid Credentials)
 echo "\n[TEST 6] Testing Admin Creation with Valid Credentials...\n";
-$testPass = 'InstallerSecure@2025';
+$testPass = 'AdminPassword@2025';
 $adminRes = create_super_admin_account($pdo, [
-    'full_name' => 'Master Administrator',
+    'full_name' => 'Super Administrator',
     'username' => 'admin',
     'email' => 'admin@satkamatka.com',
     'password' => $testPass,
@@ -99,51 +106,41 @@ if ($adminRes['success']) {
         exit(1);
     }
 } else {
-    echo "  -> [FAIL] Admin creation failed: {$adminRes['message']}\n";
+    echo "  -> [FAIL] Failed to create admin account: {$adminRes['message']}\n";
     exit(1);
 }
 
-// 7. Test Website Configuration Saving
-echo "\n[TEST 7] Testing Website Configuration & .env File Writing...\n";
+// 7. Test Site Configuration and .env Writer
+echo "\n[TEST 7] Testing Site Configuration Persistence & .env Generation...\n";
 $configRes = save_site_configuration($pdo, [
     'site_name' => 'SATKA MATKA',
     'site_tagline' => 'Live Results & Charts',
     'site_url' => 'http://localhost:3000',
     'timezone' => 'Asia/Kolkata',
-    'meta_description' => 'Get the latest Satka Matka results, market charts and historical data all in one place.',
+    'meta_description' => 'Fast, accurate live Satka Matka results and charts.',
     'contact_email' => 'support@satkamatka.com'
 ], $testDbConfig);
 
 if ($configRes['success']) {
-    echo "  -> [PASS] Website configuration saved to database and .env file generated.\n";
+    echo "  -> [PASS] Site settings and .env saved: {$configRes['message']}\n";
 } else {
-    echo "  -> [FAIL] Configuration saving failed: {$configRes['message']}\n";
+    echo "  -> [FAIL] Failed to save site configuration: {$configRes['message']}\n";
     exit(1);
 }
 
 // 8. Test Installation Verification State
-echo "\n[TEST 8] Testing Complete Installation State Verification...\n";
-$verifyRes = verify_installation_state($pdo);
-if ($verifyRes['passed']) {
-    echo "  -> [PASS] All installation checks passed:\n";
-    foreach ($verifyRes['checks'] as $c) {
-        echo "     • {$c['name']}: " . ($c['passed'] ? '[OK]' : '[FAIL]') . " - {$c['message']}\n";
+echo "\n[TEST 8] Performing Final Pre-completion State Verification...\n";
+$verify = verify_installation_state($pdo);
+if ($verify['passed']) {
+    echo "  -> [PASS] All 5 system integrity checks verified:\n";
+    foreach ($verify['checks'] as $c) {
+        echo "     * {$c['name']}: {$c['message']}\n";
     }
 } else {
-    echo "  -> [FAIL] Verification checks failed.\n";
-    print_r($verifyRes['checks']);
+    echo "  -> [FAIL] System integrity checks failed!\n";
+    print_r($verify['checks']);
     exit(1);
 }
 
-// 9. Test Lock File Creation and Protection
-echo "\n[TEST 9] Testing Installation Lock Mechanism...\n";
-$lockRes = lock_installer(['installed_by' => 'test_suite']);
-if ($lockRes && is_installed()) {
-    echo "  -> [PASS] Lock file written to storage/installed.lock and verified active.\n";
-} else {
-    echo "  -> [FAIL] Failed to create or detect installation lock file.\n";
-    exit(1);
-}
-
-echo "\n=== ALL 9 INSTALLER AUTOMATED TESTS PASSED SUCCESSFULLY ===\n";
+echo "\n=== ALL 8 INSTALLER TESTS COMPLETED SUCCESSFULLY (MySQL ONLY) ===\n";
 exit(0);

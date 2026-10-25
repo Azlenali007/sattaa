@@ -4,12 +4,20 @@
  */
 require_once __DIR__ . '/app/config/app.php';
 
-$marketId = (int)($_GET['id'] ?? 1);
 $markets = Market::getActive();
-$selectedMarket = Market::findById($marketId) ?: ($markets[0] ?? null);
+$selectedMarket = null;
+if (!empty($_GET['slug'])) {
+    $selectedMarket = Market::findBySlug(trim($_GET['slug']));
+} elseif (!empty($_GET['id'])) {
+    $selectedMarket = Market::findById((int)$_GET['id']);
+}
 
 if (!$selectedMarket) {
-    redirect('/markets.php');
+    $selectedMarket = $markets[0] ?? null;
+}
+
+if (!$selectedMarket) {
+    redirect(url('markets.php'));
 }
 
 $pageTitle = $selectedMarket['name'] . ' Jodi Chart';

@@ -4,11 +4,24 @@
  */
 require_once __DIR__ . '/app/config/app.php';
 
-$marketId = (int)($_GET['id'] ?? 1);
-$market = Market::findById($marketId) ?: Market::findById(1);
+$market = null;
+if (!empty($_GET['slug'])) {
+    $market = Market::findBySlug(trim($_GET['slug']));
+} elseif (!empty($_GET['id'])) {
+    $market = Market::findById((int)$_GET['id']);
+}
 
 if (!$market) {
-    redirect('/markets.php');
+    $market = Market::findById(1);
+}
+
+if (!$market) {
+    $all = Market::getActive();
+    $market = $all[0] ?? null;
+}
+
+if (!$market) {
+    redirect(url('markets.php'));
 }
 
 $pageTitle = $market['name'] . ' Market Details & Charts';

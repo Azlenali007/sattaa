@@ -1,12 +1,13 @@
 -- Initial Data Seeder for Satka Matka Platform
+-- Pure MySQL 8+ Seeder
 -- Initial Super Admin (Username: admin, Password: AdminPassword@2025)
--- Hash generated using password_hash('AdminPassword@2025', PASSWORD_BCRYPT)
+-- Verified bcrypt hash: $2y$10$mm0bRraOc.Q9M/ux4XIgeedLKQbt6z8zwIXtAxfwX9aP7ARmaTtRG
 
-INSERT OR IGNORE INTO admins (id, username, email, password_hash, full_name, role, status)
-VALUES (1, 'admin', 'admin@satkamatka.com', '$2y$12$6/7aQzS5xRk2N67L23qAWeXwOomlHjQfGqK9/0N0kI8cEpmO3xUfa', 'Super Administrator', 'super_admin', 'active');
+INSERT IGNORE INTO admins (id, username, email, password_hash, full_name, role, status)
+VALUES (1, 'admin', 'admin@satkamatka.com', '$2y$10$mm0bRraOc.Q9M/ux4XIgeedLKQbt6z8zwIXtAxfwX9aP7ARmaTtRG', 'Super Administrator', 'super_admin', 'active');
 
 -- Markets matching the reference layout
-INSERT OR IGNORE INTO markets (id, name, slug, open_time, close_time, status, is_live, is_featured, display_order, seo_title, seo_description)
+INSERT IGNORE INTO markets (id, name, slug, open_time, close_time, status, is_live, is_featured, display_order, seo_title, seo_description)
 VALUES 
 (1, 'Kalyan', 'kalyan', '10:00 AM', '12:00 PM', 'active', 1, 1, 1, 'Kalyan Matka Live Results & Jodi Chart', 'Live Kalyan matka result, open close patti and Jodi chart updated daily.'),
 (2, 'Main Mumbai', 'main-mumbai', '11:00 AM', '01:00 PM', 'active', 1, 1, 2, 'Main Mumbai Matka Live Results & Chart', 'Check fast Main Mumbai results and panel jodi records.'),
@@ -16,7 +17,7 @@ VALUES
 (6, 'Milan Night', 'milan-night', '09:00 PM', '11:00 PM', 'active', 0, 1, 6, 'Milan Night Results & Complete Chart', 'Milan Night opening and closing numbers and comprehensive history.');
 
 -- Results matching the reference image
-INSERT OR IGNORE INTO results (market_id, result_date, open_digit, close_digit, open_display, close_display, jodi, full_result, status)
+INSERT IGNORE INTO results (market_id, result_date, open_digit, close_digit, open_display, close_display, jodi, full_result, status)
 VALUES
 (1, '2025-04-25', '2', '5', '8 2', '7 5', '25', '8 2 - 7 5', 'published'),
 (2, '2025-04-25', '8', '6', '3 8', '1 6', '86', '3 8 - 1 6', 'published'),
@@ -30,7 +31,7 @@ VALUES
 (1, '2025-04-20', '4', '0', '5 4', '9 0', '40', '5 4 - 9 0', 'published');
 
 -- System Settings
-INSERT OR IGNORE INTO settings (setting_key, setting_value, setting_group, description)
+INSERT IGNORE INTO settings (setting_key, setting_value, setting_group, description)
 VALUES
 ('site_name', 'SATKA MATKA', 'general', 'Platform Name'),
 ('site_tagline', 'Live Results & Charts', 'general', 'Platform Tagline'),
@@ -41,8 +42,9 @@ VALUES
 ('telegram_channel', 'https://t.me/satkamatka_live', 'social', 'Telegram Link'),
 ('maintenance_mode', '0', 'security', 'Maintenance Mode Flag'),
 ('api_sync_enabled', '1', 'api', 'Enable Automatic API Sync'),
-('timezone', 'Asia/Kolkata', 'general', 'Platform Timezone');
+('timezone', 'Asia/Kolkata', 'general', 'Platform Timezone'),
+('last_sync_time', '25 Apr 2025 10:32 AM', 'api', 'Last Sync Display Time');
 
 -- Initial API Config
-INSERT OR IGNORE INTO api_configs (provider_name, api_url, api_key, is_active, sync_interval_minutes)
-VALUES ('Standard Matka Results API', 'https://api.satkamatka-feed.net/v1/live', 'demo_api_key_secure', 1, 15);
+INSERT IGNORE INTO api_configs (id, provider_name, api_url, api_key, is_active, sync_interval_minutes, last_sync_status)
+VALUES (1, 'Standard Matka Results API', 'https://api.satkamatka-feed.net/v1/live', 'sm_live_sec_99342', 1, 15, 'success');

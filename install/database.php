@@ -1,6 +1,7 @@
 <?php
 /**
- * Step 3: Database Configuration & Connection Test
+ * Step 3: MySQL Database Configuration & Connection Test
+ * Exclusively supports MySQL 8+ / MariaDB via PDO (pdo_mysql)
  */
 require_once __DIR__ . '/includes/installer-functions.php';
 installer_init();
@@ -12,11 +13,10 @@ if (empty($_SESSION['installer']['step_requirements_passed'])) {
     exit;
 }
 
-$pageTitle = 'Step 3: Database Configuration';
+$pageTitle = 'Step 3: MySQL Database Configuration';
 $currentStep = 3;
 
 $error = '';
-$testResult = null;
 
 // Handle AJAX connection test
 if (!empty($_POST['ajax_test'])) {
@@ -27,16 +27,15 @@ if (!empty($_POST['ajax_test'])) {
     }
 
     $dbConfig = [
-        'driver' => $_POST['driver'] ?? 'mysql',
-        'host' => $_POST['host'] ?? '127.0.0.1',
+        'driver' => 'mysql',
+        'host' => trim($_POST['host'] ?? '127.0.0.1'),
         'port' => (int)($_POST['port'] ?? 3306),
-        'database' => $_POST['database'] ?? '',
-        'username' => $_POST['username'] ?? '',
-        'password' => $_POST['password'] ?? ''
+        'database' => trim($_POST['database'] ?? ''),
+        'username' => trim($_POST['username'] ?? ''),
+        'password' => (string)($_POST['password'] ?? '')
     ];
 
     $res = test_database_connection($dbConfig);
-    // Don't leak raw PDO object to json
     echo json_encode([
         'success' => $res['success'],
         'message' => $res['message'],
@@ -51,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($_POST['ajax_test'])) {
         $error = 'Security check failed: Invalid CSRF token. Please try again.';
     } else {
         $dbConfig = [
-            'driver' => $_POST['driver'] ?? 'mysql',
+            'driver' => 'mysql',
             'host' => trim($_POST['host'] ?? '127.0.0.1'),
             'port' => (int)($_POST['port'] ?? 3306),
             'database' => trim($_POST['database'] ?? ''),
@@ -73,11 +72,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($_POST['ajax_test'])) {
 
 $savedConfig = $_SESSION['installer']['db_config'] ?? [
     'driver' => 'mysql',
-    'host' => '127.0.0.1',
-    'port' => 3306,
-    'database' => 'satkamatka',
-    'username' => 'root',
-    'password' => ''
+    'host' => getenv('DB_HOST') ?: '127.0.0.1',
+    'port' => getenv('DB_PORT') ?: 3306,
+    'database' => getenv('DB_DATABASE') ?: 'satkamatka',
+    'username' => getenv('DB_USERNAME') !== false ? getenv('DB_USERNAME') : 'root',
+    'password' => getenv('DB_PASSWORD') !== false ? getenv('DB_PASSWORD') : ''
 ];
 
 require_once __DIR__ . '/includes/header.php';
@@ -86,8 +85,8 @@ require_once __DIR__ . '/includes/header.php';
 <div class="installer-card p-6 sm:p-10">
   <div class="flex items-center justify-between mb-6 pb-6 border-b border-[#EAE8F5]">
     <div>
-      <h1 class="text-2xl font-black text-[#191747]">Database Configuration</h1>
-      <p class="text-xs text-[#737493] mt-0.5">Enter your MySQL database credentials and verify the connection.</p>
+      <h1 class="text-2xl font-black text-[#191747]">MySQL Database Configuration</h1>
+      <p class="text-xs text-[#737493] mt-0.5">Enter your MySQL database credentials and verify the live connection.</p>
     </div>
     <span class="text-xs font-bold text-[#6425D9] bg-[#F3EDFF] px-3 py-1 rounded-full">
       Step 3 of 8
@@ -100,7 +99,7 @@ require_once __DIR__ . '/includes/header.php';
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
       <div>
-        <strong class="font-bold block">Connection Error:</strong>
+        <strong class="font-bold block">MySQL Connection Error:</strong>
         <span><?= e($error) ?></span>
       </div>
     </div>
@@ -110,28 +109,23 @@ require_once __DIR__ . '/includes/header.php';
 
   <form id="db-config-form" action="/install/database.php" method="POST" class="space-y-5">
     <?= installer_csrf_field() ?>
+    <input type="hidden" name="driver" value="mysql">
 
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
       <div>
-        <label class="block text-xs font-bold text-[#191747] mb-1.5">Database Driver *</label>
-        <select name="driver" class="form-input" onchange="toggleDriverFields(this.value)">
-          <option value="mysql" <?= ($savedConfig['driver'] === 'mysql') ? 'selected' : '' ?>>MySQL / MariaDB (Recommended)</option>
-          <option value="sqlite" <?= ($savedConfig['driver'] === 'sqlite') ? 'selected' : '' ?>>SQLite (Local Fallback)</option>
-        </select>
-      </div>
-
-      <div class="mysql-field">
         <label class="block text-xs font-bold text-[#191747] mb-1.5">Database Host *</label>
         <input type="text" name="host" value="<?= e($savedConfig['host']) ?>" required placeholder="127.0.0.1 or localhost" class="form-input">
+        <span class="text-[10px] text-[#737493] mt-1 block">Usually 127.0.0.1 or localhost on most hosting providers</span>
       </div>
 
-      <div class="mysql-field">
+      <div>
         <label class="block text-xs font-bold text-[#191747] mb-1.5">Port *</label>
         <input type="number" name="port" value="<?= e($savedConfig['port']) ?>" required placeholder="3306" class="form-input">
+        <span class="text-[10px] text-[#737493] mt-1 block">Standard MySQL port is 3306</span>
       </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 mysql-field">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
       <div>
         <label class="block text-xs font-bold text-[#191747] mb-1.5">Database Name *</label>
         <input type="text" name="database" value="<?= e($savedConfig['database']) ?>" required placeholder="satkamatka" class="form-input">
@@ -154,13 +148,13 @@ require_once __DIR__ . '/includes/header.php';
       </div>
     </div>
 
-    <div class="p-4 rounded-2xl bg-[#FAF9FF] border border-[#EAE8F5] text-xs text-[#737493] flex items-center justify-between">
-      <span>Click below to test your connection before continuing.</span>
+    <div class="p-4 rounded-2xl bg-[#FAF9FF] border border-[#EAE8F5] text-xs text-[#737493] flex flex-col sm:flex-row items-center justify-between gap-3">
+      <span>Verify your MySQL connection parameters prior to saving and installing schema.</span>
       <button 
         type="button" 
         id="btn-test-db"
         onclick="testDatabaseConnectionAsync('db-config-form', 'test-connection-result', 'btn-test-db')" 
-        class="py-2 px-4 rounded-xl border border-[#EAE8F5] bg-white text-[#6425D9] font-bold hover:bg-[#F3EDFF] transition"
+        class="py-2.5 px-4 rounded-xl border border-[#EAE8F5] bg-white text-[#6425D9] font-bold hover:bg-[#F3EDFF] transition shrink-0"
       >
         Test Database Connection
       </button>
@@ -177,18 +171,5 @@ require_once __DIR__ . '/includes/header.php';
     </div>
   </form>
 </div>
-
-<script>
-function toggleDriverFields(driver) {
-  const fields = document.querySelectorAll('.mysql-field');
-  fields.forEach(f => {
-    if (driver === 'sqlite') {
-      f.style.display = 'none';
-    } else {
-      f.style.display = 'block';
-    }
-  });
-}
-</script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
