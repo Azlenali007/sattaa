@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /storage/
+Disallow: /app/
+
+Sitemap: https://satkamatka.com/sitemap.php?xml=1

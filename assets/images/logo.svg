@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 64" fill="none">
+  <!-- Crown Icon Container -->
+  <g transform="translate(4, 8)">
+    <rect width="48" height="48" rx="14" fill="#6425D9" />
+    <path d="M14 36h20v2.5H14V36zm1.85-2l2-10 4.58 4.74L24 20.74l1.58 8 4.58-4.74 2 10H15.85zm8.15-10.5a1.32 1.32 0 100-2.63 1.32 1.32 0 000 2.63zm-6.32 2.63a1.32 1.32 0 100-2.63 1.32 1.32 0 000 2.63zm12.63 0a1.32 1.32 0 100-2.63 1.32 1.32 0 000 2.63z" fill="#FFFFFF"/>
+  </g>
+  <!-- Text Brand -->
+  <text x="64" y="32" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="21" fill="#191747" letter-spacing="0.5">SATKA MATKA</text>
+  <text x="64" y="48" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="12" fill="#737493" letter-spacing="0.2">Live Results &amp; Charts</text>
+</svg>

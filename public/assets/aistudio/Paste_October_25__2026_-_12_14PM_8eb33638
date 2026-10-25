@@ -1,0 +1,892 @@
+MASTER PROMPT — COMPLETE PREMIUM SATKA MATKA RESULTS & CHARTS WEBSITE
+
+1. PROJECT OBJECTIVE
+
+Build a complete, professional, production-ready Satka Matka Results & Historical Charts website using Pure PHP, MySQL, Tailwind CSS, Alpine.js, Vanilla JavaScript, HTML5 and premium SVG icons.
+
+The website must have:
+
+* A public-facing user website without user registration or login.
+* A secure admin panel with admin login.
+* Market management and result management.
+* Historical charts and date-wise search.
+* An authorized API integration system for automatic result synchronization.
+* A premium white and purple UI.
+* Fully responsive desktop, tablet and mobile layouts.
+* Real working functionality, not merely a visual mockup.
+
+THE ATTACHED REFERENCE IMAGE IS THE PRIMARY DESIGN AUTHORITY.
+
+Reproduce the attached reference image as closely as possible. Match the overall layout, proportions, spacing, colors, typography, cards, tables, illustrations, navigation, borders, shadows, corner radii and visual hierarchy.
+
+Do not create a different design inspired by the reference. Reproduce the same design language and composition, adapting it intelligently for smaller screens.
+
+2. ABSOLUTE TECHNOLOGY AND FILE RESTRICTIONS
+
+Use ONLY the following technologies:
+
+* Pure PHP 8+ for backend logic and server-rendered pages.
+* MySQL for database storage.
+* HTML5 for markup.
+* Tailwind CSS for styling.
+* Alpine.js for lightweight interactive components.
+* Vanilla JavaScript for required browser functionality and AJAX.
+* SVG icons for the complete interface.
+
+STRICTLY PROHIBITED
+
+* .ts files: ZERO.
+* .tsx files: ZERO.
+* .jsx files: ZERO.
+* .vue files: ZERO.
+* React, Next.js, Vue, Angular, Svelte or any other frontend framework.
+* Node.js as an application backend.
+* Laravel, Symfony or any other PHP framework.
+* Vite, Webpack or other application bundlers.
+* TypeScript, TSX, JSX or framework scaffolding.
+* Composer packages or additional PHP libraries unless explicitly authorized.
+* Unnecessary third-party UI frameworks.
+* Unnecessary packages, dependencies, software installations or downloads.
+* Fake API responses or mock functionality presented as real.
+* User registration, public user login or theme switching.
+
+The project must contain exactly ZERO .ts and .tsx files, including hidden files, generated files, build artifacts, example files and dependency files.
+
+Do not use another framework under a different name. Do not introduce an additional programming language or application framework.
+
+The application backend must be implemented using PHP files. Standard .sql, .css, .js, .svg, configuration and documentation files are permitted only for their proper purposes.
+
+START CODING IMMEDIATELY
+
+Do not install anything or scaffold a framework. Do not waste time explaining the setup or asking unnecessary questions.
+
+Start writing the actual working source code directly.
+
+Use ordinary PHP files, PDO, reusable PHP includes, MySQL, Tailwind CSS, Alpine.js, Vanilla JavaScript and SVG icons.
+
+Do not depend on Node.js application infrastructure. For production CSS, provide a suitable compiled Tailwind CSS file without adding an application framework or unnecessary build dependencies.
+
+3. EXACT VISUAL DESIGN
+
+Use the attached reference image to reproduce the premium white and purple interface.
+
+Color palette
+
+* Primary purple: #6425D9
+* Deep purple: #35156F
+* Light purple: #F3EDFF
+* Main background: #FFFFFF
+* Soft background: #FAF9FF
+* Primary text: #191747
+* Secondary text: #737493
+* Border: #EAE8F5
+* Success green: #16A779
+
+Use white backgrounds, subtle purple accents, soft shadows, thin borders and consistent rounded corners.
+
+Do not introduce dark mode, a theme switcher, neon colors, excessive gradients or unnecessary animations.
+
+Typography
+
+Use a modern, readable sans-serif font.
+
+Maintain the same visual hierarchy as the reference image:
+
+* Bold hero heading.
+* Compact navigation labels.
+* Clearly differentiated section headings.
+* Readable market names.
+* Prominent numerical result displays.
+* Small but legible timestamps and metadata.
+
+Maintain consistent spacing, alignment and typography across all pages.
+
+4. HEADER AND NAVIGATION
+
+Recreate the reference image’s header with:
+
+* Purple crown-style SVG icon.
+* SATKA MATKA wordmark.
+* Subtitle: “Live Results & Charts”.
+* Home.
+* All Markets.
+* Latest Results.
+* Charts.
+* History.
+* Search.
+* About.
+* Contact.
+* Search icon and search field.
+* Purple active-navigation underline.
+
+Do not add registration, login, user profile or account links to the public navigation.
+
+The header must be responsive, with an accessible mobile menu.
+
+5. HOMEPAGE HERO SECTION
+
+Recreate the reference image’s hero section.
+
+Include:
+
+* Small uppercase introductory label.
+* Heading: “Live Results & Historical Charts”.
+* Short, relevant descriptive text.
+* Market/date search field.
+* Purple search button.
+* Purple numbered sphere and crown illustration on the right side of the desktop hero.
+
+Match the illustration’s placement, scale, spacing and appearance as closely as possible.
+
+If the exact illustration is unavailable, create a suitable original SVG/CSS illustration. Do not replace it with an unrelated stock image.
+
+On mobile, stack the content vertically and scale the illustration appropriately.
+
+6. LATEST RESULTS
+
+Recreate the four-card layout shown in the reference image:
+
+* Kalyan.
+* Main Mumbai.
+* Rajdhani.
+* Sridevi.
+
+These names are sample display labels. Actual market records must be loaded from MySQL.
+
+Each card should include:
+
+* Market name.
+* Opening and closing schedule.
+* Published, upcoming or unavailable status.
+* Actual result digits when a verified published result exists.
+* Clearly separated Open and Close labels.
+* A working link to the market details page.
+
+Never invent numbers and present them as actual live results.
+
+If the database is empty, display a polished empty state rather than fake results.
+
+7. POPULAR MARKETS
+
+Create a responsive market-card grid containing:
+
+* Purple circular SVG icon.
+* Market name.
+* Market schedule.
+* “View Chart” link.
+* Actual market details or chart URL.
+
+All market cards must be dynamically loaded from MySQL.
+
+8. MARKET SCHEDULE AND RECENT HISTORY
+
+Reproduce the reference image’s two-column layout.
+
+Market Schedule
+
+Display:
+
+* Market name.
+* Open time.
+* Close time.
+* Status.
+
+Recent History
+
+Display:
+
+* Date.
+* Market name.
+* Published result.
+* Open/close values when available.
+
+Both sections must use actual database records and support suitable filtering, pagination, empty states and responsive presentation.
+
+9. RIGHT-SIDE MARKET DETAILS PANEL
+
+On desktop, reproduce the compact right-side panel from the reference image.
+
+Include:
+
+* Purple market-details header.
+* Selected market name.
+* Publication status.
+* Opening and closing times.
+* Latest published result.
+* Jodi Chart tab.
+* History tab.
+* Date Wise tab.
+* Historical chart table.
+* Pagination.
+* Related markets.
+* Quick links.
+* Recent results.
+
+Keep the sidebar aligned with the main content and visually consistent with the reference.
+
+On tablets and mobile devices, move this content into a logical vertical layout or collapsible sections. Never force the desktop sidebar into an unreadable narrow column.
+
+10. BOTTOM CTA AND FOOTER
+
+Recreate the purple call-to-action section from the reference image.
+
+Include:
+
+* Appropriate SVG icon.
+* Short heading.
+* Useful descriptive text.
+* Search field and working search action.
+
+Recreate the dark-purple footer with:
+
+* Brand icon and wordmark.
+* Main navigation links.
+* Privacy Policy.
+* Terms & Conditions.
+* Contact information only when configured.
+* Social links only when genuine links have been provided.
+* Copyright information.
+
+Do not invent company details, addresses, phone numbers or social profiles.
+
+11. RESPONSIVE DESIGN
+
+The design must work correctly on:
+
+* 320px mobile screens.
+* 375px mobile screens.
+* 430px mobile screens.
+* 768px tablets.
+* 1024px laptops and tablets.
+* 1366px desktop screens.
+* 1920px large displays.
+
+Desktop
+
+* Reproduce the two-column layout.
+* Main content on the left.
+* Compact market-details panel on the right.
+* Properly aligned cards and tables.
+* Consistent whitespace.
+
+Tablet
+
+* Reduce grid columns as necessary.
+* Adjust spacing and card dimensions.
+* Reflow the sidebar when appropriate.
+* Preserve readable text and tables.
+
+Mobile
+
+* Single-column page layout.
+* Responsive navigation.
+* Full-width search controls.
+* Stacked market cards.
+* Horizontally scrollable tables where necessary.
+* Touch targets preferably around 44px.
+* No overlapping content.
+* No clipped buttons.
+* No accidental horizontal page scrolling.
+* Readable numerical results.
+* Properly scaled illustrations.
+
+Do not simply shrink the desktop page. Adapt its layout for actual mobile usability.
+
+12. COMPLETE USER-SIDE PAGES
+
+Create these public pages:
+
+1. index.php — Homepage.
+2. markets.php — All markets.
+3. market.php — Market details.
+4. results.php — Latest published results.
+5. chart.php — Jodi and historical charts.
+6. history.php — Historical result records.
+7. search.php — Search by market and date.
+8. about.php — About page.
+9. contact.php — Contact page.
+10. privacy-policy.php — Privacy policy.
+11. terms.php — Terms and conditions.
+12. 404.php — Custom not-found page.
+13. sitemap.php — Sitemap generation or output if appropriate.
+
+Include:
+
+* Market search.
+* Date filters.
+* Date-range filtering.
+* Market-wise history.
+* Pagination.
+* Related markets.
+* Result timestamps.
+* SEO-friendly URLs.
+* Accessible navigation.
+* Loading states where required.
+* Empty states and useful error messages.
+
+Public users must not need to register or log in.
+
+13. COMPLETE ADMIN PANEL
+
+Only administrators can log in.
+
+Required functionality:
+
+Dashboard
+
+* Total markets.
+* Active/inactive markets.
+* Published results.
+* Scheduled results.
+* Recent administrative activity.
+* Latest synchronization status.
+* Useful summary statistics.
+* Quick action links.
+
+Market Management
+
+* Add market.
+* Edit market.
+* View market details.
+* Activate/deactivate market.
+* Delete market with confirmation.
+* Configure opening and closing times.
+* Set display order.
+* Configure market slug and SEO metadata.
+
+Result Management
+
+* Add result.
+* Edit result.
+* View result.
+* Delete result.
+* Draft/publish controls.
+* Market assignment.
+* Date and time validation.
+* Duplicate-result prevention.
+* Historical result management.
+* Bulk import with validation.
+* Confirmation for sensitive actions.
+
+Scheduled Publishing
+
+* Create scheduled publication.
+* Edit schedule.
+* Cancel scheduled publication.
+* View scheduled results.
+* Track publication status.
+* Log failures.
+
+Charts and History
+
+* Browse historical records.
+* Filter by market and date.
+* Search records.
+* Paginate results.
+* Export permitted records to CSV.
+
+API Settings
+
+* Configure an authorized API endpoint.
+* Store API credentials securely.
+* Test connection.
+* Configure field mapping.
+* Set synchronization intervals.
+* Manually trigger synchronization.
+* View last successful sync time.
+* Inspect sync logs and errors.
+
+Homepage Management
+
+* Select featured markets.
+* Manage announcements.
+* Manage notice banners.
+* Configure homepage content.
+* Control display order.
+
+SEO Management
+
+* Meta titles.
+* Meta descriptions.
+* Canonical URLs.
+* XML sitemap settings.
+* Robots.txt configuration.
+* Clean URLs.
+
+Website Settings
+
+* Website name.
+* Logo and favicon.
+* Timezone.
+* Date/time format.
+* Contact information.
+* Pagination settings.
+* Maintenance mode.
+
+Admin Security
+
+* Secure admin login/logout.
+* Password change.
+* Session management.
+* Login attempt limits.
+* Role/permission checks if multiple admin roles are implemented.
+* Activity logs.
+* Error logs.
+* Database backup and restore controls.
+
+Admin UI
+
+Use the same premium white and purple visual system.
+
+Include:
+
+* Responsive sidebar.
+* Collapsible mobile navigation.
+* Dashboard cards.
+* Tables with search and filters.
+* Pagination.
+* Working forms.
+* Accessible modals.
+* Confirmation dialogs.
+* Toast messages.
+* Loading indicators.
+* SVG icons.
+
+Every button and form must perform its actual stated action.
+
+14. API-BASED RESULT SYNCHRONIZATION
+
+Create a configurable PHP API integration service for a compatible, authorized external results API.
+
+Implement:
+
+* Secure server-side credentials.
+* Configurable endpoint.
+* HTTP request timeout.
+* API authentication.
+* Response validation.
+* Field mapping.
+* Market mapping.
+* Duplicate detection.
+* Data validation.
+* MySQL persistence.
+* Scheduled synchronization via PHP cron.
+* Manual “Sync Now” button.
+* Configurable synchronization intervals.
+* Retry handling.
+* Rate-limit handling.
+* Last successful sync timestamp.
+* Failed-sync logging.
+* Fallback to previously saved results when the API is unavailable.
+
+The public website should read saved database records.
+
+Use AJAX polling only when necessary for a useful result-refresh experience.
+
+Do not invent an API provider, endpoint, credential or live feed. If credentials or an API specification are unavailable, implement the integration layer and clearly document the missing configuration.
+
+Never present unverified or fabricated results as real.
+
+15. DATABASE REQUIREMENTS
+
+Use MySQL with PDO and prepared statements.
+
+Provide a complete database/schema.sql defining appropriate tables, relationships, indexes, constraints and timestamps.
+
+Required tables:
+
+* admins
+* markets
+* results
+* scheduled_publications
+* api_configs
+* api_sync_logs
+* settings
+* announcements
+* admin_activity_logs
+
+Add further tables only if they are genuinely necessary.
+
+Historical charts should be generated from the results table where appropriate rather than duplicating records unnecessarily.
+
+Provide a database/seed.sql file only for clearly identified sample data or safe initial setup data.
+
+Create a secure first-admin setup process. Do not hardcode a public default password.
+
+Use database transactions when multiple changes must remain consistent.
+
+16. SECURITY REQUIREMENTS
+
+Implement:
+
+* PDO prepared statements.
+* Password hashing using PHP’s password_hash().
+* Password verification using password_verify().
+* CSRF protection.
+* HTML output escaping.
+* XSS prevention.
+* Server-side input validation.
+* Secure session cookies.
+* Session ID regeneration after authentication.
+* Authentication and authorization checks.
+* Login rate limiting.
+* Secure API credential storage.
+* Restricted access to logs and backups.
+* Safe database operations.
+* Safe error handling.
+* Appropriate HTTP security headers.
+
+Do not expose database credentials, API keys, logs or backup files to public visitors.
+
+Do not perform destructive actions through unprotected GET requests. Use authenticated, CSRF-protected POST operations for changes.
+
+17. COMPLETE PROJECT FOLDER STRUCTURE
+
+Create the project using the following structure. Implement actual files rather than merely printing this tree.
+
+satka-matka/
+│
+├── index.php
+├── markets.php
+├── market.php
+├── results.php
+├── chart.php
+├── history.php
+├── search.php
+├── about.php
+├── contact.php
+├── privacy-policy.php
+├── terms.php
+├── 404.php
+├── sitemap.php
+├── robots.txt
+├── .htaccess
+├── .env.example
+├── README.md
+│
+├── app/
+│   ├── config/
+│   │   ├── app.php
+│   │   ├── database.php
+│   │   └── constants.php
+│   │
+│   ├── helpers/
+│   │   ├── common.php
+│   │   ├── url.php
+│   │   ├── validation.php
+│   │   ├── security.php
+│   │   ├── pagination.php
+│   │   └── seo.php
+│   │
+│   ├── middleware/
+│   │   ├── admin-auth.php
+│   │   └── csrf.php
+│   │
+│   ├── models/
+│   │   ├── Market.php
+│   │   ├── Result.php
+│   │   ├── Admin.php
+│   │   ├── Setting.php
+│   │   └── Announcement.php
+│   │
+│   └── services/
+│       ├── ResultService.php
+│       ├── ApiClient.php
+│       ├── ApiSyncService.php
+│       ├── SeoService.php
+│       └── BackupService.php
+│
+├── includes/
+│   ├── head.php
+│   ├── header.php
+│   ├── navbar.php
+│   ├── footer.php
+│   ├── sidebar-market.php
+│   ├── search-form.php
+│   ├── result-card.php
+│   ├── market-card.php
+│   ├── pagination.php
+│   ├── flash-message.php
+│   └── seo-meta.php
+│
+├── admin/
+│   ├── index.php
+│   ├── login.php
+│   ├── logout.php
+│   ├── dashboard.php
+│   │
+│   ├── markets/
+│   │   ├── index.php
+│   │   ├── create.php
+│   │   ├── edit.php
+│   │   ├── view.php
+│   │   ├── status.php
+│   │   └── delete.php
+│   │
+│   ├── results/
+│   │   ├── index.php
+│   │   ├── create.php
+│   │   ├── edit.php
+│   │   ├── view.php
+│   │   ├── publish.php
+│   │   ├── delete.php
+│   │   └── bulk-import.php
+│   │
+│   ├── charts/
+│   │   ├── index.php
+│   │   ├── history.php
+│   │   └── export.php
+│   │
+│   ├── scheduled/
+│   │   ├── index.php
+│   │   ├── create.php
+│   │   ├── edit.php
+│   │   └── cancel.php
+│   │
+│   ├── api-settings/
+│   │   ├── index.php
+│   │   ├── test-connection.php
+│   │   ├── sync-now.php
+│   │   ├── sync-logs.php
+│   │   └── field-mapping.php
+│   │
+│   ├── homepage/
+│   │   ├── index.php
+│   │   └── announcements.php
+│   │
+│   ├── seo/
+│   │   ├── index.php
+│   │   └── sitemap.php
+│   │
+│   ├── settings/
+│   │   ├── index.php
+│   │   ├── general.php
+│   │   ├── security.php
+│   │   └── change-password.php
+│   │
+│   ├── logs/
+│   │   ├── index.php
+│   │   ├── admin-activity.php
+│   │   └── errors.php
+│   │
+│   ├── backups/
+│   │   ├── index.php
+│   │   ├── create.php
+│   │   └── download.php
+│   │
+│   └── includes/
+│       ├── head.php
+│       ├── header.php
+│       ├── sidebar.php
+│       ├── navbar.php
+│       ├── footer.php
+│       └── auth-check.php
+│
+├── api/
+│   ├── search.php
+│   ├── results.php
+│   ├── market-history.php
+│   └── refresh-results.php
+│
+├── cron/
+│   ├── sync-results.php
+│   ├── publish-scheduled.php
+│   └── cleanup-logs.php
+│
+├── assets/
+│   ├── css/
+│   │   └── app.css
+│   │
+│   ├── js/
+│   │   ├── app.js
+│   │   ├── search.js
+│   │   ├── results.js
+│   │   └── admin.js
+│   │
+│   ├── images/
+│   │   ├── logo.svg
+│   │   ├── favicon.svg
+│   │   └── hero-illustration.svg
+│   │
+│   └── icons/
+│       ├── crown.svg
+│       ├── search.svg
+│       ├── calendar.svg
+│       ├── chart.svg
+│       ├── clock.svg
+│       └── arrow-right.svg
+│
+├── database/
+│   ├── schema.sql
+│   ├── seed.sql
+│   └── migrations/
+│
+├── storage/
+│   ├── logs/
+│   │   └── .gitkeep
+│   ├── backups/
+│   │   └── .gitkeep
+│   └── cache/
+│       └── .gitkeep
+│
+└── tests/
+    ├── php-check.php
+    └── database-check.php
+
+Folder structure implementation rules
+
+* Every required PHP file must contain its actual intended functionality.
+* Do not create empty files merely to match the tree.
+* If a file is unnecessary, explain why before omitting it and update all references consistently.
+* Reusable functionality must be placed in the appropriate helpers, models, services or includes.
+* Public pages must use consistent shared components.
+* Admin pages must use shared navigation and authentication checks.
+* Protect private directories using server configuration and appropriate access rules.
+* Do not place database credentials or API secrets inside publicly accessible files.
+* storage/ must not be publicly accessible.
+* database/migrations/ may remain empty until actual migrations are needed; do not create meaningless placeholder migration files.
+* Do not use a framework router. Implement ordinary PHP page routing and URL handling.
+
+18. IMPORTANT IMPLEMENTATION DETAILS
+
+PHP architecture
+
+* Use reusable PHP includes.
+* Keep database access centralized.
+* Use PDO with prepared statements.
+* Separate database operations from presentation logic where practical.
+* Validate all incoming data server-side.
+* Avoid duplicating code across public and admin pages.
+* Use safe redirects and clear HTTP status codes.
+* Do not expose raw exception messages to visitors.
+
+JavaScript
+
+* Use Alpine.js for dropdowns, mobile navigation, tabs, modals and other lightweight interactions.
+* Use Vanilla JavaScript for AJAX and other required browser functionality.
+* Keep JavaScript modular and minimal.
+* Do not use TypeScript or JSX syntax.
+* Do not use JavaScript frameworks.
+
+CSS
+
+* Match the attached design.
+* Use Tailwind CSS utility classes.
+* Keep reusable styles organized.
+* Provide a production-ready CSS asset.
+* Do not add unnecessary animation libraries.
+
+SVG icons
+
+* Use consistent, clean SVG icons.
+* Prefer local SVG files or inline SVG markup.
+* Keep icon sizes and stroke weights consistent.
+* Do not use emoji as a replacement for interface icons.
+* Use meaningful accessible labels where appropriate.
+
+19. NO UNNECESSARY WEBSITE TEXT
+
+The website must look like a real premium commercial product.
+
+Never display unnecessary technology or developer credits such as:
+
+* “Made with PHP”.
+* “Powered by PHP”.
+* “Built using Tailwind CSS”.
+* “Developed by AI”.
+* “Generated by ChatGPT”.
+* “Demo Project”.
+* “Sample Template”.
+* “Created with [framework name]”.
+* Unrequested developer credits.
+* Fake company claims.
+* Fake testimonials.
+* Fake live status.
+* Fake API connection indicators.
+* Debug messages.
+* Placeholder marketing copy.
+
+Show only user-relevant information: market names, verified results, schedules, timestamps, navigation, contact details and legitimate website policies.
+
+Do not invent addresses, phone numbers, business identities, API providers or social media accounts.
+
+20. TESTING AND QUALITY ASSURANCE
+
+Before declaring the project complete:
+
+* Check PHP syntax on all PHP files.
+* Confirm database schema imports successfully.
+* Verify secure admin login/logout.
+* Test market creation, editing, activation and deletion.
+* Test result creation, editing and publishing.
+* Test duplicate-result prevention.
+* Test search, date filters and pagination.
+* Test invalid and empty form submissions.
+* Test CSRF protection.
+* Test authorization and session security.
+* Test API connection failure handling.
+* Test sync logs and retries.
+* Test scheduled publishing.
+* Test backup permissions.
+* Test responsive layouts at the specified screen widths.
+* Check broken links and missing assets.
+* Check browser console errors.
+* Confirm that no .ts, .tsx, .jsx or .vue files exist.
+* Confirm that there are no unnecessary framework files or dependencies.
+* Confirm that no developer credits or unwanted text appear in the UI.
+
+Do not claim that a feature is tested unless it has actually been tested.
+
+21. START CODING IMMEDIATELY — NO INSTALLATION
+
+Do not install or download additional frameworks, packages, dependencies, build tools or software.
+
+Do not generate a React, TypeScript, TSX, Node.js or Laravel project.
+
+Do not spend time explaining how the project could be built. Begin writing the actual working source code directly using the specified stack.
+
+If file creation is supported, create the actual project files and provide the complete project.
+
+If the complete project cannot be generated in a single response, implement it in logical modules while preserving the folder structure, filenames, database schema, shared components and visual design. Do not silently omit functionality or replace implementation with pseudocode.
+
+Provide:
+
+* Actual PHP source files.
+* Actual SQL schema.
+* Working CSS and JavaScript assets.
+* SVG assets.
+* Configuration examples.
+* Installation/import instructions for the existing PHP/MySQL hosting environment.
+* Admin setup instructions.
+* API configuration instructions.
+* Cron configuration instructions.
+* README documentation.
+
+The application should require only the normal PHP/MySQL hosting environment and the specified frontend assets. Do not introduce extra application frameworks or unnecessary setup requirements.
+
+22. FINAL ACCEPTANCE CRITERIA
+
+The finished website must:
+
+1. Match the attached reference image as closely as possible.
+2. Use the premium white and purple design.
+3. Support mobile, tablet and desktop.
+4. Include all required public pages.
+5. Include a secure admin dashboard.
+6. Include market and result management.
+7. Include historical charts and search.
+8. Include configurable API-based result synchronization.
+9. Use MySQL for persistent data.
+10. Use PHP for backend operations.
+11. Use Tailwind CSS, Alpine.js, Vanilla JavaScript and SVG icons.
+12. Contain exactly ZERO .ts and .tsx files.
+13. Contain no unnecessary frontend or backend frameworks.
+14. Contain no public user registration/login.
+15. Contain no theme switcher.
+16. Contain no fake results or fake API status.
+17. Contain no unnecessary developer credits or technology labels.
+18. Include actual working source code rather than a mockup.
+19. Include appropriate security, validation, logging and error handling.
+20. Start coding immediately without installing additional frameworks or unnecessary dependencies.
+
+FINAL COMMAND: Follow every requirement above. Use the attached image as the visual reference. Create the complete project with the exact folder structure and working functionality. Pure PHP + MySQL + Tailwind CSS + Alpine.js + Vanilla JavaScript + SVG icons only. .ts files ZERO. .tsx files ZERO. No other framework. No unnecessary installations. No missing files or fake functionality. Start coding now.

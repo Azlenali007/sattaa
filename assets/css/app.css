@@ -1,0 +1,108 @@
+@charset "UTF-8";
+
+:root {
+  --primary-purple: #6425D9;
+  --deep-purple: #35156F;
+  --light-purple: #F3EDFF;
+  --main-bg: #FFFFFF;
+  --soft-bg: #FAF9FF;
+  --primary-text: #191747;
+  --secondary-text: #737493;
+  --border-color: #EAE8F5;
+  --success-green: #16A779;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: var(--primary-text);
+  background-color: var(--soft-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Utilities */
+.bg-soft { background-color: var(--soft-bg); }
+.bg-brand-primary { background-color: var(--primary-purple); }
+.bg-brand-deep { background-color: var(--deep-purple); }
+.bg-brand-light { background-color: var(--light-purple); }
+.text-brand-primary { color: var(--primary-purple); }
+.text-brand-deep { color: var(--deep-purple); }
+.text-brand-muted { color: var(--secondary-text); }
+.text-brand-main { color: var(--primary-text); }
+.border-brand { border-color: var(--border-color); }
+
+/* Nav Active Link indicator */
+.nav-link {
+  position: relative;
+  font-weight: 500;
+  color: var(--secondary-text);
+  transition: color 0.15s ease;
+}
+.nav-link:hover {
+  color: var(--primary-purple);
+}
+.nav-link.active {
+  color: var(--primary-purple);
+  font-weight: 600;
+}
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 2.5px;
+  background-color: var(--primary-purple);
+  border-radius: 9999px;
+}
+
+/* Big Result Digits Boxes */
+.result-digit-box {
+  background-color: #FAF9FF;
+  border: 1px solid #E5DEFF;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 1.75rem;
+  line-height: 1;
+  color: var(--primary-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  min-width: 44px;
+  box-shadow: inset 0 1px 2px rgba(100, 37, 217, 0.05);
+}
+
+/* Subtle Card Glow */
+.card-hover-effect {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.card-hover-effect:hover {
+  transform: translateY(-2px);
+  border-color: #D6C7FF;
+  box-shadow: 0 10px 25px -5px rgba(100, 37, 217, 0.08);
+}
+
+/* Pulse animation for live badge */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+.animate-pulse-dot {
+  animation: pulse-dot 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF9FF;
+}
+::-webkit-scrollbar-thumb {
+  background: #D8CEF6;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-purple);
+}
