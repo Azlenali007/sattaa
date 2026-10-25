@@ -10,4 +10,4 @@ $pageMeta = $pageMeta ?? Seo::getMeta($pageTitle ?? '', $pageDescription ?? '');
 <meta property="og:title" content="<?= e($pageMeta['title']) ?>">
 <meta property="og:description" content="<?= e($pageMeta['description']) ?>">
 <meta property="og:type" content="website">
-<link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
+<link rel="icon" type="image/svg+xml" href="<?= asset('images/favicon.svg') ?>">

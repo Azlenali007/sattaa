@@ -33,7 +33,11 @@ function base_url(string $path = ''): string {
 }
 
 function asset(string $path): string {
-    return url('assets/' . ltrim($path, '/'));
+    $clean = ltrim($path, '/');
+    if (str_starts_with($clean, 'assets/')) {
+        return url($clean);
+    }
+    return url('assets/' . $clean);
 }
 
 function is_active_route(string $route): bool {

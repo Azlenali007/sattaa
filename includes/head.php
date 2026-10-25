@@ -45,6 +45,6 @@ require_once __DIR__ . '/../app/config/app.php';
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
 
   <!-- Custom App Styles -->
-  <link rel="stylesheet" href="/assets/css/app.css">
+  <link rel="stylesheet" href="<?= asset('css/app.css') ?>">
 </head>
 <body class="bg-[#FAF9FF] text-[#191747] min-h-screen flex flex-col antialiased">

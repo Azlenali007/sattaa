@@ -141,28 +141,34 @@ $lastUpdated = Setting::get('last_sync_time', '25 Apr 2025 10:32 AM');
             </tr>
           </thead>
           <tbody class="divide-y divide-[#F3EDFF] text-[#191747]">
-            <?php foreach ($jodiRecords as $rec): ?>
-              <tr class="hover:bg-[#FAF9FF] transition">
-                <td class="py-2.5 text-[11px] font-medium text-[#737493] whitespace-nowrap"><?= e($rec['date_formatted']) ?></td>
-                <td class="py-2.5 text-center font-bold text-[#191747]"><?= e($rec['jodi_1']) ?></td>
-                <td class="py-2.5 text-center font-bold text-[#191747]"><?= e($rec['jodi_2']) ?></td>
-                <td class="py-2.5 text-center font-bold text-[#191747]"><?= e($rec['jodi_3']) ?></td>
-                <td class="py-2.5 text-center font-bold text-[#191747]"><?= e($rec['jodi_4']) ?></td>
+            <?php if (empty($jodiRecords)): ?>
+              <tr>
+                <td colspan="5" class="py-4 text-center text-[#737493] text-xs">No Jodi chart records yet.</td>
               </tr>
-            <?php endforeach; ?>
+            <?php else: ?>
+              <?php foreach ($jodiRecords as $rec): ?>
+                <tr class="hover:bg-[#FAF9FF] transition">
+                  <td class="py-2.5 text-[11px] font-medium text-[#737493] whitespace-nowrap"><?= e($rec['date_formatted']) ?></td>
+                  <td class="py-2.5 text-center font-bold text-[#191747]"><?= e($rec['jodi_1']) ?></td>
+                  <td class="py-2.5 text-center font-bold text-[#191747]"><?= e($rec['jodi_2']) ?></td>
+                  <td class="py-2.5 text-center font-bold text-[#191747]"><?= e($rec['jodi_3']) ?></td>
+                  <td class="py-2.5 text-center font-bold text-[#191747]"><?= e($rec['jodi_4']) ?></td>
+                </tr>
+              <?php endforeach; ?>
+            <?php endif; ?>
           </tbody>
         </table>
       </div>
 
       <!-- Pagination in Sidebar matching reference -->
       <div class="flex items-center justify-center space-x-1.5 pt-4 border-t border-[#EAE8F5] mt-3 text-xs">
-        <a href="/chart.php?id=<?= $market['id'] ?>&page=1" class="w-6 h-6 rounded-md flex items-center justify-center text-[#737493] hover:bg-[#F3EDFF]">&lt;</a>
-        <a href="/chart.php?id=<?= $market['id'] ?>&page=1" class="w-6 h-6 rounded-md bg-[#6425D9] text-white flex items-center justify-center font-bold">1</a>
-        <a href="/chart.php?id=<?= $market['id'] ?>&page=2" class="w-6 h-6 rounded-md flex items-center justify-center text-[#737493] hover:bg-[#F3EDFF]">2</a>
-        <a href="/chart.php?id=<?= $market['id'] ?>&page=3" class="w-6 h-6 rounded-md flex items-center justify-center text-[#737493] hover:bg-[#F3EDFF]">3</a>
-        <a href="/chart.php?id=<?= $market['id'] ?>&page=4" class="w-6 h-6 rounded-md flex items-center justify-center text-[#737493] hover:bg-[#F3EDFF]">4</a>
-        <a href="/chart.php?id=<?= $market['id'] ?>&page=5" class="w-6 h-6 rounded-md flex items-center justify-center text-[#737493] hover:bg-[#F3EDFF]">5</a>
-        <a href="/chart.php?id=<?= $market['id'] ?>&page=2" class="w-6 h-6 rounded-md flex items-center justify-center text-[#737493] hover:bg-[#F3EDFF]">&gt;</a>
+        <a href="<?= url('chart.php?id=' . $market['id'] . '&page=1') ?>" class="w-6 h-6 rounded-md flex items-center justify-center text-[#737493] hover:bg-[#F3EDFF]">&lt;</a>
+        <a href="<?= url('chart.php?id=' . $market['id'] . '&page=1') ?>" class="w-6 h-6 rounded-md bg-[#6425D9] text-white flex items-center justify-center font-bold">1</a>
+        <a href="<?= url('chart.php?id=' . $market['id'] . '&page=2') ?>" class="w-6 h-6 rounded-md flex items-center justify-center text-[#737493] hover:bg-[#F3EDFF]">2</a>
+        <a href="<?= url('chart.php?id=' . $market['id'] . '&page=3') ?>" class="w-6 h-6 rounded-md flex items-center justify-center text-[#737493] hover:bg-[#F3EDFF]">3</a>
+        <a href="<?= url('chart.php?id=' . $market['id'] . '&page=4') ?>" class="w-6 h-6 rounded-md flex items-center justify-center text-[#737493] hover:bg-[#F3EDFF]">4</a>
+        <a href="<?= url('chart.php?id=' . $market['id'] . '&page=5') ?>" class="w-6 h-6 rounded-md flex items-center justify-center text-[#737493] hover:bg-[#F3EDFF]">5</a>
+        <a href="<?= url('chart.php?id=' . $market['id'] . '&page=2') ?>" class="w-6 h-6 rounded-md flex items-center justify-center text-[#737493] hover:bg-[#F3EDFF]">&gt;</a>
       </div>
 
     </div>
@@ -178,25 +184,29 @@ $lastUpdated = Setting::get('last_sync_time', '25 Apr 2025 10:32 AM');
     </div>
     
     <div class="space-y-2.5">
-      <?php foreach ($relatedMarkets as $rm): ?>
-        <a href="/market.php?id=<?= $rm['id'] ?>" class="flex items-center justify-between p-3 rounded-xl bg-[#FAF9FF] hover:bg-[#F3EDFF] border border-[#EAE8F5] transition group">
-          <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full bg-white border border-[#EAE8F5] flex items-center justify-center text-[#6425D9] group-hover:scale-105 transition-transform">
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <circle cx="12" cy="12" r="9" stroke-width="2" />
-                <circle cx="12" cy="12" r="3" fill="#6425D9" />
-              </svg>
+      <?php if (empty($relatedMarkets)): ?>
+        <p class="text-xs text-[#737493] py-2">No related markets available.</p>
+      <?php else: ?>
+        <?php foreach ($relatedMarkets as $rm): ?>
+          <a href="<?= url('market.php?id=' . $rm['id']) ?>" class="flex items-center justify-between p-3 rounded-xl bg-[#FAF9FF] hover:bg-[#F3EDFF] border border-[#EAE8F5] transition group">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-white border border-[#EAE8F5] flex items-center justify-center text-[#6425D9] group-hover:scale-105 transition-transform">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <circle cx="12" cy="12" r="9" stroke-width="2" />
+                  <circle cx="12" cy="12" r="3" fill="#6425D9" />
+                </svg>
+              </div>
+              <div>
+                <span class="block font-bold text-xs text-[#191747]"><?= e($rm['name']) ?></span>
+                <span class="block text-[11px] text-[#737493]"><?= e($rm['open_time']) ?> - <?= e($rm['close_time']) ?></span>
+              </div>
             </div>
-            <div>
-              <span class="block font-bold text-xs text-[#191747]"><?= e($rm['name']) ?></span>
-              <span class="block text-[11px] text-[#737493]"><?= e($rm['open_time']) ?> - <?= e($rm['close_time']) ?></span>
-            </div>
-          </div>
-          <svg class="w-4 h-4 text-[#737493] group-hover:text-[#6425D9] group-hover:translate-x-0.5 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-          </svg>
-        </a>
-      <?php endforeach; ?>
+            <svg class="w-4 h-4 text-[#737493] group-hover:text-[#6425D9] group-hover:translate-x-0.5 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        <?php endforeach; ?>
+      <?php endif; ?>
     </div>
   </div>
 
@@ -210,7 +220,7 @@ $lastUpdated = Setting::get('last_sync_time', '25 Apr 2025 10:32 AM');
     </div>
     
     <div class="grid grid-cols-4 gap-2">
-      <a href="/markets.php" class="flex flex-col items-center justify-center p-3 rounded-xl bg-[#FAF9FF] hover:bg-[#F3EDFF] border border-[#EAE8F5] transition text-center group">
+      <a href="<?= url('markets.php') ?>" class="flex flex-col items-center justify-center p-3 rounded-xl bg-[#FAF9FF] hover:bg-[#F3EDFF] border border-[#EAE8F5] transition text-center group">
         <div class="w-9 h-9 rounded-lg bg-white flex items-center justify-center text-[#6425D9] shadow-2xs group-hover:scale-105 transition">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
@@ -219,7 +229,7 @@ $lastUpdated = Setting::get('last_sync_time', '25 Apr 2025 10:32 AM');
         <span class="text-[10px] font-bold text-[#191747] mt-2 block">All Markets</span>
       </a>
 
-      <a href="/results.php" class="flex flex-col items-center justify-center p-3 rounded-xl bg-[#FAF9FF] hover:bg-[#F3EDFF] border border-[#EAE8F5] transition text-center group">
+      <a href="<?= url('results.php') ?>" class="flex flex-col items-center justify-center p-3 rounded-xl bg-[#FAF9FF] hover:bg-[#F3EDFF] border border-[#EAE8F5] transition text-center group">
         <div class="w-9 h-9 rounded-lg bg-white flex items-center justify-center text-[#6425D9] shadow-2xs group-hover:scale-105 transition">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -228,7 +238,7 @@ $lastUpdated = Setting::get('last_sync_time', '25 Apr 2025 10:32 AM');
         <span class="text-[10px] font-bold text-[#191747] mt-2 block">Latest Results</span>
       </a>
 
-      <a href="/chart.php" class="flex flex-col items-center justify-center p-3 rounded-xl bg-[#FAF9FF] hover:bg-[#F3EDFF] border border-[#EAE8F5] transition text-center group">
+      <a href="<?= url('chart.php') ?>" class="flex flex-col items-center justify-center p-3 rounded-xl bg-[#FAF9FF] hover:bg-[#F3EDFF] border border-[#EAE8F5] transition text-center group">
         <div class="w-9 h-9 rounded-lg bg-white flex items-center justify-center text-[#6425D9] shadow-2xs group-hover:scale-105 transition">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
@@ -237,7 +247,7 @@ $lastUpdated = Setting::get('last_sync_time', '25 Apr 2025 10:32 AM');
         <span class="text-[10px] font-bold text-[#191747] mt-2 block">Jodi Chart</span>
       </a>
 
-      <a href="/history.php" class="flex flex-col items-center justify-center p-3 rounded-xl bg-[#FAF9FF] hover:bg-[#F3EDFF] border border-[#EAE8F5] transition text-center group">
+      <a href="<?= url('history.php') ?>" class="flex flex-col items-center justify-center p-3 rounded-xl bg-[#FAF9FF] hover:bg-[#F3EDFF] border border-[#EAE8F5] transition text-center group">
         <div class="w-9 h-9 rounded-lg bg-white flex items-center justify-center text-[#6425D9] shadow-2xs group-hover:scale-105 transition">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -257,29 +267,33 @@ $lastUpdated = Setting::get('last_sync_time', '25 Apr 2025 10:32 AM');
         </svg>
         <h3 class="font-bold text-sm text-[#191747]">Recent Results</h3>
       </div>
-      <a href="/results.php" class="text-xs font-semibold text-[#6425D9] hover:underline flex items-center gap-1">
+      <a href="<?= url('results.php') ?>" class="text-xs font-semibold text-[#6425D9] hover:underline flex items-center gap-1">
         View All &gt;
       </a>
     </div>
 
     <div class="space-y-3">
-      <?php foreach ($recentResultsList as $rr): 
-        $num = str_replace(' - ', ' ', $rr['full_result'] ?: '8 2 7 5');
-      ?>
-        <div class="flex items-center justify-between py-2 border-b border-[#FAF9FF] last:border-b-0 text-xs">
-          <div class="flex items-center gap-2.5">
-            <div class="w-2.5 h-2.5 rounded-full border-2 border-[#6425D9]"></div>
-            <div>
-              <span class="font-bold text-[#191747] block"><?= e($rr['market_name']) ?></span>
-              <span class="text-[10px] text-[#737493]"><?= format_app_date($rr['result_date'], 'd M Y') ?></span>
+      <?php if (empty($recentResultsList)): ?>
+        <p class="text-xs text-[#737493] py-2">No recent results yet.</p>
+      <?php else: ?>
+        <?php foreach ($recentResultsList as $rr): 
+          $num = str_replace(' - ', ' ', $rr['full_result'] ?: '8 2 7 5');
+        ?>
+          <div class="flex items-center justify-between py-2 border-b border-[#FAF9FF] last:border-b-0 text-xs">
+            <div class="flex items-center gap-2.5">
+              <div class="w-2.5 h-2.5 rounded-full border-2 border-[#6425D9]"></div>
+              <div>
+                <span class="font-bold text-[#191747] block"><?= e($rr['market_name']) ?></span>
+                <span class="text-[10px] text-[#737493]"><?= format_app_date($rr['result_date'], 'd M Y') ?></span>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="font-mono font-extrabold text-[#191747] tracking-wider"><?= e($num) ?></span>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200">Open</span>
             </div>
           </div>
-          <div class="flex items-center gap-3">
-            <span class="font-mono font-extrabold text-[#191747] tracking-wider"><?= e($num) ?></span>
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200">Open</span>
-          </div>
-        </div>
-      <?php endforeach; ?>
+        <?php endforeach; ?>
+      <?php endif; ?>
     </div>
   </div>
 

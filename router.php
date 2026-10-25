@@ -54,7 +54,7 @@ if (str_starts_with($uri, '/install/')) {
 }
 
 // Default fallback to index.php
-if ($uri === '/' || $uri === '/index.php') {
+if ($uri === '/' || $uri === '/index.php' || $uri === '/index.html') {
     require __DIR__ . '/index.php';
     return true;
 }

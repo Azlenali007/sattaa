@@ -9,12 +9,42 @@ require_once __DIR__ . '/app/config/app.php';
 $pageTitle = 'Live Results & Historical Charts';
 $pageDescription = 'Get the latest Satka Matka results, market charts and historical data all in one place. Fast, accurate and easy to use.';
 
-// Load Data
-$latestCards = Result::getLatestCards();
-$popularMarkets = Market::getPopular(6);
-$marketSchedule = Market::getActive();
-$recentHistory = Result::getRecentHistory(6);
-$announcements = Announcement::getActive();
+// Safe Data Loading with fallback defaults
+$latestCards = [];
+$popularMarkets = [];
+$marketSchedule = [];
+$recentHistory = [];
+$announcements = [];
+
+try {
+    $latestCards = Result::getLatestCards();
+} catch (Throwable $e) {
+    error_log("Failed to load latest cards: " . $e->getMessage());
+}
+
+try {
+    $popularMarkets = Market::getPopular(6);
+} catch (Throwable $e) {
+    error_log("Failed to load popular markets: " . $e->getMessage());
+}
+
+try {
+    $marketSchedule = Market::getActive();
+} catch (Throwable $e) {
+    error_log("Failed to load market schedule: " . $e->getMessage());
+}
+
+try {
+    $recentHistory = Result::getRecentHistory(6);
+} catch (Throwable $e) {
+    error_log("Failed to load recent history: " . $e->getMessage());
+}
+
+try {
+    $announcements = Announcement::getActive();
+} catch (Throwable $e) {
+    error_log("Failed to load announcements: " . $e->getMessage());
+}
 
 require __DIR__ . '/includes/head.php';
 require __DIR__ . '/includes/header.php';
@@ -66,7 +96,7 @@ require __DIR__ . '/includes/flash-message.php';
           <div class="lg:col-span-5 flex justify-center items-center">
             <div class="relative w-full max-w-[420px]">
               <img 
-                src="/assets/images/hero-illustration.svg" 
+                src="<?= asset('images/hero-illustration.svg') ?>" 
                 alt="Satka Matka Crown and 3D Numbers Illustration" 
                 class="w-full h-auto drop-shadow-md transform hover:scale-102 transition duration-300"
               >
@@ -87,14 +117,26 @@ require __DIR__ . '/includes/flash-message.php';
             </div>
             <h2 class="text-lg font-black text-[#191747] tracking-tight">Latest Results</h2>
           </div>
-          <a href="/results.php" class="text-xs font-bold text-[#6425D9] hover:underline">View All</a>
+          <a href="<?= url('results.php') ?>" class="text-xs font-bold text-[#6425D9] hover:underline">View All</a>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <?php foreach ($latestCards as $card): ?>
-            <?php require __DIR__ . '/includes/result-card.php'; ?>
-          <?php endforeach; ?>
-        </div>
+        <?php if (!empty($latestCards)): ?>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <?php foreach ($latestCards as $card): ?>
+              <?php require __DIR__ . '/includes/result-card.php'; ?>
+            <?php endforeach; ?>
+          </div>
+        <?php else: ?>
+          <div class="bg-white rounded-2xl border border-[#EAE8F5] p-8 text-center shadow-xs">
+            <div class="w-12 h-12 mx-auto rounded-full bg-[#F3EDFF] text-[#6425D9] flex items-center justify-center mb-3">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 class="text-sm font-bold text-[#191747]">No Results Declared Yet Today</h3>
+            <p class="text-xs text-[#737493] mt-1">Live results will appear automatically here as soon as markets declare their numbers.</p>
+          </div>
+        <?php endif; ?>
       </section>
 
       <!-- Section: Popular Markets matching reference -->
@@ -108,11 +150,17 @@ require __DIR__ . '/includes/flash-message.php';
           <h2 class="text-lg font-black text-[#191747] tracking-tight">Popular Markets</h2>
         </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
-          <?php foreach ($popularMarkets as $marketCard): ?>
-            <?php require __DIR__ . '/includes/market-card.php'; ?>
-          <?php endforeach; ?>
-        </div>
+        <?php if (!empty($popularMarkets)): ?>
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
+            <?php foreach ($popularMarkets as $marketCard): ?>
+              <?php require __DIR__ . '/includes/market-card.php'; ?>
+            <?php endforeach; ?>
+          </div>
+        <?php else: ?>
+          <div class="bg-white rounded-2xl border border-[#EAE8F5] p-6 text-center shadow-xs">
+            <p class="text-xs text-[#737493]">No active markets are configured right now. Please check back shortly.</p>
+          </div>
+        <?php endif; ?>
       </section>
 
       <!-- Section: Two Columns (Market Schedule + Recent History) matching reference -->
@@ -138,22 +186,30 @@ require __DIR__ . '/includes/flash-message.php';
                 </tr>
               </thead>
               <tbody class="divide-y divide-[#FAF9FF] text-[#191747]">
-                <?php foreach ($marketSchedule as $ms): 
-                  $isOpen = !empty($ms['is_live']);
-                ?>
-                  <tr class="hover:bg-[#FAF9FF] transition">
-                    <td class="py-2.5 font-bold text-[#191747]"><?= e($ms['name']) ?></td>
-                    <td class="py-2.5 text-[#737493]"><?= e($ms['open_time']) ?></td>
-                    <td class="py-2.5 text-[#737493]"><?= e($ms['close_time']) ?></td>
-                    <td class="py-2.5 text-right">
-                      <?php if ($isOpen): ?>
-                        <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200">Open</span>
-                      <?php else: ?>
-                        <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-purple-50 text-purple-700 border border-purple-200">Upcoming</span>
-                      <?php endif; ?>
+                <?php if (empty($marketSchedule)): ?>
+                  <tr>
+                    <td colspan="4" class="py-6 text-center text-[#737493] text-xs">
+                      No market schedule records available.
                     </td>
                   </tr>
-                <?php endforeach; ?>
+                <?php else: ?>
+                  <?php foreach ($marketSchedule as $ms): 
+                    $isOpen = !empty($ms['is_live']);
+                  ?>
+                    <tr class="hover:bg-[#FAF9FF] transition">
+                      <td class="py-2.5 font-bold text-[#191747]"><?= e($ms['name']) ?></td>
+                      <td class="py-2.5 text-[#737493]"><?= e($ms['open_time']) ?></td>
+                      <td class="py-2.5 text-[#737493]"><?= e($ms['close_time']) ?></td>
+                      <td class="py-2.5 text-right">
+                        <?php if ($isOpen): ?>
+                          <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200">Open</span>
+                        <?php else: ?>
+                          <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-purple-50 text-purple-700 border border-purple-200">Upcoming</span>
+                        <?php endif; ?>
+                      </td>
+                    </tr>
+                  <?php endforeach; ?>
+                <?php endif; ?>
               </tbody>
             </table>
           </div>
@@ -168,7 +224,7 @@ require __DIR__ . '/includes/flash-message.php';
               </svg>
               <h3 class="font-extrabold text-sm text-[#191747]">Recent History</h3>
             </div>
-            <a href="/history.php" class="text-xs font-bold text-[#6425D9] hover:underline">View All</a>
+            <a href="<?= url('history.php') ?>" class="text-xs font-bold text-[#6425D9] hover:underline">View All</a>
           </div>
 
           <div class="overflow-x-auto">
@@ -181,15 +237,23 @@ require __DIR__ . '/includes/flash-message.php';
                 </tr>
               </thead>
               <tbody class="divide-y divide-[#FAF9FF] text-[#191747]">
-                <?php foreach ($recentHistory as $rh): ?>
-                  <tr class="hover:bg-[#FAF9FF] transition">
-                    <td class="py-2.5 text-[11px] font-medium text-[#737493] whitespace-nowrap"><?= format_app_date($rh['result_date'], 'd M Y') ?></td>
-                    <td class="py-2.5 font-bold text-[#191747]"><?= e($rh['market_name']) ?></td>
-                    <td class="py-2.5 text-right font-mono font-extrabold text-[#191747]">
-                      <?= e($rh['full_result'] ?: ($rh['open_display'] . ' - ' . $rh['close_display'])) ?>
+                <?php if (empty($recentHistory)): ?>
+                  <tr>
+                    <td colspan="3" class="py-6 text-center text-[#737493] text-xs">
+                      No recent history records declared yet.
                     </td>
                   </tr>
-                <?php endforeach; ?>
+                <?php else: ?>
+                  <?php foreach ($recentHistory as $rh): ?>
+                    <tr class="hover:bg-[#FAF9FF] transition">
+                      <td class="py-2.5 text-[11px] font-medium text-[#737493] whitespace-nowrap"><?= format_app_date($rh['result_date'], 'd M Y') ?></td>
+                      <td class="py-2.5 font-bold text-[#191747]"><?= e($rh['market_name']) ?></td>
+                      <td class="py-2.5 text-right font-mono font-extrabold text-[#191747]">
+                        <?= e($rh['full_result'] ?: ($rh['open_display'] . ' - ' . $rh['close_display'])) ?>
+                      </td>
+                    </tr>
+                  <?php endforeach; ?>
+                <?php endif; ?>
               </tbody>
             </table>
           </div>
