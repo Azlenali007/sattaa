@@ -254,6 +254,36 @@ class Result {
         }
     }
 
+    public static function count(): int {
+        try {
+            $pdo = Database::getConnection();
+            return (int)$pdo->query("SELECT COUNT(*) FROM results WHERE status = 'published'")->fetchColumn();
+        } catch (Throwable $e) {
+            error_log("Result::count error: " . $e->getMessage());
+            return 0;
+        }
+    }
+
+    public static function allPaginated(int $limit = 10, int $offset = 0): array {
+        try {
+            $pdo = Database::getConnection();
+            $stmt = $pdo->prepare("
+                SELECT r.*, m.name as market_name, m.slug as market_slug
+                FROM results r
+                JOIN markets m ON r.market_id = m.id
+                ORDER BY r.result_date DESC, r.id DESC
+                LIMIT ? OFFSET ?
+            ");
+            $stmt->bindValue(1, $limit, PDO::PARAM_INT);
+            $stmt->bindValue(2, $offset, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll() ?: [];
+        } catch (Throwable $e) {
+            error_log("Result::allPaginated error: " . $e->getMessage());
+            return [];
+        }
+    }
+
     public static function delete(int $id): bool {
         try {
             $pdo = Database::getConnection();

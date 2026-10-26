@@ -1,5 +1,10 @@
 #!/bin/bash
-set -e
+# 0. Ensure PHP and MariaDB binaries exist
+if ! command -v php &> /dev/null || ! command -v mariadb &> /dev/null; then
+  export DEBIAN_FRONTEND=noninteractive
+  apt-get update -qq > /dev/null 2>&1 || true
+  apt-get install -y -qq --no-install-recommends -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" php8.2-cli php8.2-mysql mariadb-server curl > /dev/null 2>&1 || true
+fi
 
 # 1. Ensure MariaDB server is active
 if command -v service &> /dev/null; then

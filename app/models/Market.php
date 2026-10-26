@@ -25,6 +25,26 @@ class Market {
         return self::all('active');
     }
 
+    public static function count(): int {
+        try {
+            $pdo = Database::getConnection();
+            return (int)$pdo->query("SELECT COUNT(*) FROM markets")->fetchColumn();
+        } catch (Throwable $e) {
+            error_log("Market::count error: " . $e->getMessage());
+            return 0;
+        }
+    }
+
+    public static function countActive(): int {
+        try {
+            $pdo = Database::getConnection();
+            return (int)$pdo->query("SELECT COUNT(*) FROM markets WHERE status = 'active'")->fetchColumn();
+        } catch (Throwable $e) {
+            error_log("Market::countActive error: " . $e->getMessage());
+            return 0;
+        }
+    }
+
     public static function getPopular(int $limit = 6): array {
         try {
             $pdo = Database::getConnection();

@@ -32,9 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             Admin::logActivity($admin['id'], 'Login', 'Auth', null, 'Super Admin logged in successfully');
             set_flash('success', 'Welcome back, Administrator!');
 
-            $redirectUrl = $_GET['redirect'] ?? '/admin/dashboard.php';
-            if (!str_starts_with($redirectUrl, '/admin/')) {
-                $redirectUrl = '/admin/dashboard.php';
+            $redirectUrl = $_GET['redirect'] ?? '';
+            if (empty($redirectUrl) || $redirectUrl === '/admin' || $redirectUrl === '/admin/' || $redirectUrl === '/admin/index.php' || $redirectUrl === '/admin/login.php' || !str_starts_with($redirectUrl, '/admin/')) {
+                $redirectUrl = 'admin/dashboard.php';
             }
             redirect($redirectUrl);
         } else {

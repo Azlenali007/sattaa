@@ -6,12 +6,48 @@ require_once __DIR__ . '/includes/auth-check.php';
 
 $pageTitle = 'Dashboard Overview';
 
-$totalMarkets = Market::count();
-$activeMarkets = Market::countActive();
-$totalResults = Result::count();
-$lastSyncTime = Setting::get('last_sync_time', '25 Apr 2025 10:32 AM');
-$recentLogs = Admin::getRecentLogs(8);
-$latestResults = Result::allPaginated(5, 0);
+$totalMarkets = 0;
+$activeMarkets = 0;
+$totalResults = 0;
+$lastSyncTime = 'Operational';
+$recentLogs = [];
+$latestResults = [];
+
+try {
+    $totalMarkets = Market::count();
+} catch (Throwable $e) {
+    error_log("Dashboard totalMarkets error: " . $e->getMessage());
+}
+
+try {
+    $activeMarkets = Market::countActive();
+} catch (Throwable $e) {
+    error_log("Dashboard activeMarkets error: " . $e->getMessage());
+}
+
+try {
+    $totalResults = Result::count();
+} catch (Throwable $e) {
+    error_log("Dashboard totalResults error: " . $e->getMessage());
+}
+
+try {
+    $lastSyncTime = Setting::get('last_sync_time', '25 Apr 2025 10:32 AM');
+} catch (Throwable $e) {
+    error_log("Dashboard lastSyncTime error: " . $e->getMessage());
+}
+
+try {
+    $recentLogs = Admin::getRecentLogs(8);
+} catch (Throwable $e) {
+    error_log("Dashboard recentLogs error: " . $e->getMessage());
+}
+
+try {
+    $latestResults = Result::allPaginated(5, 0);
+} catch (Throwable $e) {
+    error_log("Dashboard latestResults error: " . $e->getMessage());
+}
 
 require __DIR__ . '/includes/head.php';
 require __DIR__ . '/includes/sidebar.php';
@@ -19,7 +55,7 @@ require __DIR__ . '/includes/sidebar.php';
 
 <div class="flex-1 flex flex-col min-w-0">
   <?php require __DIR__ . '/includes/header.php'; ?>
-  <?php require __DIR__ . '/../../includes/flash-message.php'; ?>
+  <?php require __DIR__ . '/../includes/flash-message.php'; ?>
 
   <main class="p-6 sm:p-8 space-y-8 flex-1">
     
@@ -32,15 +68,15 @@ require __DIR__ . '/includes/sidebar.php';
 
       <!-- Quick Actions -->
       <div class="flex flex-wrap items-center gap-2">
-        <a href="/admin/markets/create.php" class="px-3.5 py-2 rounded-xl bg-[#6425D9] hover:bg-[#521ec2] text-white text-xs font-bold flex items-center gap-1.5 shadow-xs transition">
+        <a href="<?= e(url('admin/markets/create.php')) ?>" class="px-3.5 py-2 rounded-xl bg-[#6425D9] hover:bg-[#521ec2] text-white text-xs font-bold flex items-center gap-1.5 shadow-xs transition">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
           <span>Add Market</span>
         </a>
-        <a href="/admin/results/create.php" class="px-3.5 py-2 rounded-xl bg-white border border-[#EAE8F5] hover:bg-[#FAF9FF] text-[#191747] text-xs font-bold flex items-center gap-1.5 shadow-xs transition">
+        <a href="<?= e(url('admin/results/create.php')) ?>" class="px-3.5 py-2 rounded-xl bg-white border border-[#EAE8F5] hover:bg-[#FAF9FF] text-[#191747] text-xs font-bold flex items-center gap-1.5 shadow-xs transition">
           <svg class="w-4 h-4 text-[#6425D9]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           <span>Publish Result</span>
         </a>
-        <a href="/admin/api-settings/sync-now.php" class="px-3.5 py-2 rounded-xl bg-[#F3EDFF] hover:bg-[#e7d8ff] text-[#6425D9] text-xs font-bold flex items-center gap-1.5 transition">
+        <a href="<?= e(url('admin/api-settings/sync-now.php')) ?>" class="px-3.5 py-2 rounded-xl bg-[#F3EDFF] hover:bg-[#e7d8ff] text-[#6425D9] text-xs font-bold flex items-center gap-1.5 transition">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
           <span>Sync API Now</span>
         </a>
@@ -101,7 +137,7 @@ require __DIR__ . '/includes/sidebar.php';
       <div class="lg:col-span-7 bg-white rounded-2xl border border-[#EAE8F5] p-6 shadow-xs">
         <div class="flex items-center justify-between mb-4">
           <h2 class="font-extrabold text-sm text-[#191747]">Latest Published Results</h2>
-          <a href="/admin/results/index.php" class="text-xs font-bold text-[#6425D9] hover:underline">Manage All</a>
+          <a href="<?= e(url('admin/results/index.php')) ?>" class="text-xs font-bold text-[#6425D9] hover:underline">Manage All</a>
         </div>
 
         <div class="overflow-x-auto">
@@ -115,14 +151,20 @@ require __DIR__ . '/includes/sidebar.php';
               </tr>
             </thead>
             <tbody class="divide-y divide-[#FAF9FF] text-[#191747]">
-              <?php foreach ($latestResults as $lr): ?>
-                <tr class="hover:bg-[#FAF9FF]">
-                  <td class="py-2.5 text-[#737493] whitespace-nowrap"><?= format_app_date($lr['result_date'], 'd M Y') ?></td>
-                  <td class="py-2.5 font-bold"><?= e($lr['market_name']) ?></td>
-                  <td class="py-2.5 text-center font-mono font-bold text-[#6425D9]"><?= e($lr['jodi'] ?: '--') ?></td>
-                  <td class="py-2.5 text-right font-mono font-black"><?= e($lr['full_result']) ?></td>
+              <?php if (empty($latestResults)): ?>
+                <tr>
+                  <td colspan="4" class="py-6 text-center text-[#737493]">No published results found.</td>
                 </tr>
-              <?php endforeach; ?>
+              <?php else: ?>
+                <?php foreach ($latestResults as $lr): ?>
+                  <tr class="hover:bg-[#FAF9FF]">
+                    <td class="py-2.5 text-[#737493] whitespace-nowrap"><?= format_app_date($lr['result_date'], 'd M Y') ?></td>
+                    <td class="py-2.5 font-bold"><?= e($lr['market_name']) ?></td>
+                    <td class="py-2.5 text-center font-mono font-bold text-[#6425D9]"><?= e($lr['jodi'] ?: '--') ?></td>
+                    <td class="py-2.5 text-right font-mono font-black"><?= e($lr['full_result']) ?></td>
+                  </tr>
+                <?php endforeach; ?>
+              <?php endif; ?>
             </tbody>
           </table>
         </div>
@@ -132,7 +174,7 @@ require __DIR__ . '/includes/sidebar.php';
       <div class="lg:col-span-5 bg-white rounded-2xl border border-[#EAE8F5] p-6 shadow-xs">
         <div class="flex items-center justify-between mb-4">
           <h2 class="font-extrabold text-sm text-[#191747]">Recent Activity Logs</h2>
-          <a href="/admin/logs/index.php" class="text-xs font-bold text-[#6425D9] hover:underline">View All</a>
+          <a href="<?= e(url('admin/logs/index.php')) ?>" class="text-xs font-bold text-[#6425D9] hover:underline">View All</a>
         </div>
 
         <div class="space-y-3">
